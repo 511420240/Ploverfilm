@@ -23,6 +23,10 @@
         </el-form-item>
       </el-form>
     </div>
+        <div class="toreg">
+      已有账号
+      <router-link to="/login">去登录</router-link>
+    </div>
   </div>
 </template>
 

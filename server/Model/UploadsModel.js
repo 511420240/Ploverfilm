@@ -19,7 +19,11 @@ class UserModel extends DbBase {
             isFirst = false;
         }
         let sql = `INSERT INTO ${this.table}(${fieldstr}) VALUES (${field}) `;
+        console.log(sql)
         this.mydb.query(sql, data, (err, results) => {
+            console.log("***********************")
+            console.log(err)
+            console.log(results)
             if (err) {
                 callback(err);
             } else {

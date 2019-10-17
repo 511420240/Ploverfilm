@@ -1,41 +1,41 @@
 <template>
   <div class="uploads">
     <div class="content">
-      <!-- <div class="imss">
+      <div class="imss">
         <div class="gec">
-          <span>歌曲封面</span>
+          <span>封面</span>
         </div>
         <el-upload
           class="image"
-          action="http://localhost:8881/upload/upload"
+          action="http://localhost:81/uploads/upload"
           ref="uploadIMG"
           accept=".jpg, .gif"
           :auto-upload="true"
           :multiple="false"
-          :show-file-list="false"
+          :show-file-list="true"
           name="file"
           :data="{fileType: 'img'}"
           :on-success="handleImgsuccess"
         >
-          <img v-if="form.img" :src="form.img" class="avatar" />
+          <img v-if="form.mimg" :src="form.mimg" class="avatar" />
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
-      </div> -->
+      </div>
 
-      <!-- <div class="mP3">
+      <div class="mp4">
         <span>上传视频：</span>
         <el-upload
-          ref="uploadMp3"
+          ref="uploadmp4"
           class
-          action="http://localhost:81/upload/upload"
+          action="http://localhost:81/uploads/upload"
           accept=".mp4"
           :auto-upload="true"
           :multiple="false"
           :show-file-list="false"
           :on-change="uploadChang"
           name="file"
-          :data="{fileType: 'mp3'}"
-          :on-success="handleMp3success"
+          :data="{fileType: 'mp4'}"
+          :on-success="handlemp4success"
         >
           <div class>
             <el-row>
@@ -43,13 +43,13 @@
             </el-row>
           </div>
         </el-upload>
-        <div class="mp3Namess">
+        <div class="mp4Namess">
           <div class>
-            {{mp3Name}}
-            <audio :src="mp3Url" class="audio"></audio>
+            {{mp4Name}}
+            <audio :src="mp4Url" class="audio"></audio>
           </div>
         </div>
-      </div> -->
+      </div>
 
       <div class="informations">
         <el-form ref="form" :model="form" :rules="rules" label-width="80px">
@@ -62,16 +62,39 @@
           <el-form-item label="演员">
             <el-input v-model="form.actor" placeholder="请填演员名称多个以空格分开"></el-input>
           </el-form-item>
-          <el-form-item label="电影类型">
-            <el-input v-model="form.classification" placeholder="请填类型多个以空格分开"></el-input>
+          <!-- //////////////////// -->
+          <el-form-item label="上映时间">
+            <div class="block">
+              <span class="demonstration"></span>
+              <el-date-picker
+                v-model="form.Releasetime"
+                align="right"
+                type="year"
+                placeholder="选择年"
+              ></el-date-picker>
+            </div>
           </el-form-item>
+          <!-- //////////////////// -->
+          <div>
+            <el-form-item label="电影类型">
+              <el-checkbox-group v-model="form.classification" :min="0" :max="6">
+                <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
+          </div>
+
           <el-form-item label="地区">
-            <el-input v-model="form.region" placeholder="地区"></el-input>
+            <el-checkbox-group v-model="form.region" :min="0" :max="1">
+              <el-checkbox v-for="city in cities2" :label="city" :key="city">{{city}}</el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+          <el-form-item label="VIP观看">
+            <el-radio v-model="form.vips" label="1">是</el-radio>
+            <el-radio v-model="form.vips" label="0">否</el-radio>
           </el-form-item>
           <el-form-item label="语言">
             <el-input v-model="form.language" placeholder="语言"></el-input>
           </el-form-item>
-
           <el-form-item label="简介">
             <el-input
               id="Thelyrics"
@@ -92,27 +115,58 @@
 <script>
 export default {
   data: function() {
+    const cityOptions = [
+      "喜剧",
+      "爱情",
+      "动作",
+      "枪战",
+      "犯罪",
+      "惊悚",
+      "恐怖",
+      "悬疑",
+      "动画",
+      "家庭",
+      "奇幻",
+      "科幻",
+      "魔幻",
+      "战争",
+      "青春"
+    ];
+    const cityOptions2 = [
+      "华语",
+      "香港地区",
+      "美国",
+      "欧美",
+      "韩国",
+      "日本",
+      "泰国",
+      "印度",
+      "其他"
+    ];
     return {
+      cities: cityOptions,
+      cities2: cityOptions2,
       dialogImageUrl: "",
       dialogVisible: false,
       form: {
         moviename: "",
         director: "",
         actor: "",
-        classification: "",
-        region: "",
+        classification: [],
+        region: ["华语"],
         Releasetime: "",
-        vips: "",
+        vips: "0",
         charge: "",
         language: "",
         plays: "",
         score: "",
         introduction: "",
-        mimg: ""
+        mimg: "",
+        MP4: "",
+        mid: ""
       },
-      mp3Url: "",
-      mp3Name: "",
-      fileData: [],
+      mp4Url: "",
+      mp4Name: "",
       rules: {
         hemename: [
           {
@@ -123,23 +177,26 @@ export default {
           }
         ]
       }
+
     };
   },
   methods: {
     uploadChang(file) {
-      this.mp3Url = URL.createObjectURL(file.raw);
-      this.mp3Name = file.name;
+      this.mp4Url = URL.createObjectURL(file.raw);
+      this.mp4Name = file.name;
     },
     handleRemove(file, fileList) {
+      console.log(file);
       this.form.img = "";
     },
-    handleMp3success(response, file, fileList) {
-      this.form.MP3 = response.data;
+    handlemp4success(response, file, fileList) {
+      this.form.MP4 = response.data;
       console.log(response.data);
     },
     handleImgsuccess(response, file, fileList) {
-      this.form.img = response.data;
-      console.log(response.data);
+      console.log(this.form.img);
+      this.form.mimg = response.data;
+      console.log("++++++", response.data);
     },
     onSubmit(formname) {
       this.$refs[formname].validate(valid => {
@@ -154,7 +211,7 @@ export default {
               console.log(error);
               console.log(form);
             });
-        } else { 
+        } else {
           console.log("验证失败");
         }
       });
@@ -240,11 +297,11 @@ body {
   height: 100px;
   width: 100%;
 }
-.mP3 {
+.mp4 {
   height: 100px;
   display: flex;
 }
-.mp3Namess {
+.mp4Namess {
   width: 300px;
   height: 50px;
   border: 1px solid rgb(121, 121, 121);

@@ -35,7 +35,6 @@ class UserModel extends DbBase {
         let sql = `SELECT * FROM ${this.table} WHERE account = ? LIMIt 1`;
         this.mydb.query(sql, [account], (err, results)=>{
             if(err) {
-                console.log(err)
                 callback(err);
             }else{
                 callback(results);
@@ -44,8 +43,18 @@ class UserModel extends DbBase {
             this.mydb.end();
         });
     }
-    changeuser(){
-        
+    changeuser(account,callback){
+        let sql = `SELECT * FROM ${this.table} WHERE account = ? LIMIt 1`;
+        this.mydb.query(sql, [account], (err, results)=>{
+            if(err) {
+                callback(err);
+            }else{
+                callback(results);
+            }
+            
+            this.mydb.end();
+        });
+   
     }
 
 

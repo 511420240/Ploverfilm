@@ -1,14 +1,12 @@
 <template>
   <div class="home">
-    11112222222
+    <my_Space></my_Space>
   </div>
 </template>
 
 <script>
-
 export default {
-  name: 'home',
-  components: {
-  }
-}
+  name: "home",
+  components: {}
+};
 </script>

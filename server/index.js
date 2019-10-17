@@ -17,7 +17,6 @@ app.use("/uploads",require('./Controller/UploadsController'))
 
 // 静态资源
 app.use('/uploads', express.static(__dirname+'/uploads'));
-
 app.listen(81,()=>{
     console.log('服务器端口81启动')
 })

@@ -6,12 +6,15 @@ import axios from 'axios'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
+import Space from './components/Space.vue'
+
 Vue.config.productionTip = false
 axios.defaults.baseURL="http://localhost:81";
 Vue.prototype.axios=axios;
 Vue.use(ElementUI)
 
 
+Vue.component("my_Space",Space);
 
 
 
