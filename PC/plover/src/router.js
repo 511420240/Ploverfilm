@@ -1,13 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import Play from './views/Play-page.vue'
+import Detail from './views/detail.vue'
+
 import Reg from './views/Reg.vue'
 import Login from './views/Login.vue'
 import Upload from './views/Upload.vue'
-import Space from './views/Space.vue'
-import history from './views/history.vue'
-import subscrib from './views/subscrib.vue'
-import Editinfo from './views/Editinfo.vue'
+import Souso from './views/sousopage.vue'
+// import Space from  './views/Space.vue'
+
+
+
+
+
 Vue.use(Router)
 
 export default new Router({
@@ -19,6 +25,20 @@ export default new Router({
       name: 'home',
       component: Home
     },
+    
+    {
+      path: '/souso',
+      name: 'sousopage',
+      component: Souso
+    },
+    
+
+    {
+      path: '/play',
+      name: 'play',
+      component: Play
+    },
+
     {
       path: '/reg',
       name: 'reg',
@@ -34,6 +54,12 @@ export default new Router({
       name: '上传',
       component: Upload
     },
+    {
+     path: '/detail',
+      name: 'detail',
+      component: Detail
+    },
+    
     {
       path: '/space',
       name: 'Space',
